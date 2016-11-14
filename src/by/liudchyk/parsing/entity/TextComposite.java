@@ -2,20 +2,19 @@ package by.liudchyk.parsing.entity;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
 /**
  * Created by Admin on 01.11.2016.
  */
-public class TextComposite implements TextComponent{
+public class TextComposite implements TextComponent {
     private static final Logger LOG = LogManager.getLogger();
     private ArrayList<TextComponent> components = new ArrayList<>();
-    private ElementType elementType;
+    private TextType textType;
 
-    public TextComposite(ElementType elementType) {
-        this.elementType = elementType;
+    public TextComposite(TextType textType) {
+        this.textType = textType;
     }
 
     @Override
@@ -24,36 +23,32 @@ public class TextComposite implements TextComponent{
     }
 
     @Override
-    public void remove(TextComponent textComponent) {
-        components.remove(textComponent);
-    }
-
-    @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        switch (elementType){
+        switch (textType) {
             case TEXT:
                 appendComponents(sb);
                 break;
             case PARAGRAPH:
                 appendComponents(sb);
+                sb.append("\n");
                 break;
             case SENTENCE:
-                sb.append("\n");
             case LEXEME:
+                sb.append(" ");
                 appendComponents(sb);
                 break;
             case WORD:
-                sb.append(" ");
-            case SYMBOL:
+                //          case SYMBOL:
                 appendComponents(sb);
                 break;
+            default:
+                LOG.error("No such text type: " + textType);
         }
         return new String(sb);
     }
 
     private void appendComponents(StringBuilder sb) {
-        components.clone();
         for (TextComponent c : components) {
             sb.append(c);
         }
@@ -63,7 +58,7 @@ public class TextComposite implements TextComponent{
         return components;
     }
 
-    public ElementType getElementType() {
-        return elementType;
+    public TextType getTextType() {
+        return textType;
     }
 }

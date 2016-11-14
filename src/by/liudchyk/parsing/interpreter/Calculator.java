@@ -8,19 +8,20 @@ import java.util.Scanner;
  */
 public class Calculator {
     private ArrayList<AbstractMathExpression> listExpression;
+
     public Calculator(String expression) {
         listExpression = new ArrayList<>();
         parse(expression);
     }
 
-    public void parse(String expression){
+    public void parse(String expression) {
         for (String lexeme : expression.split("\\p{Blank}+")) {
             if (lexeme.isEmpty()) {
                 continue;
             }
-            if(lexeme.length()==2){
+            if (lexeme.length() == 2) {
                 char temp = lexeme.charAt(1);
-                switch (temp){
+                switch (temp) {
                     case '+':
                         listExpression.add(new TerminalExpressionIncrement());
                         break;
@@ -32,7 +33,7 @@ public class Calculator {
                             listExpression.add(new NonterminalExpressionNumber(scan.nextInt()));
                         }
                 }
-            }else if(lexeme.length()==1){
+            } else if (lexeme.length() == 1) {
                 char temp = lexeme.charAt(0);
                 switch (temp) {
                     case '+':
@@ -53,7 +54,7 @@ public class Calculator {
                             listExpression.add(new NonterminalExpressionNumber(scan.nextInt()));
                         }
                 }
-            }else{
+            } else {
                 Scanner scan = new Scanner(lexeme);
                 if (scan.hasNextInt()) {
                     listExpression.add(new NonterminalExpressionNumber(scan.nextInt()));
@@ -61,6 +62,7 @@ public class Calculator {
             }
         }
     }
+
     public Number calculate() {
         Context context = new Context();
         for (AbstractMathExpression terminal : listExpression) {

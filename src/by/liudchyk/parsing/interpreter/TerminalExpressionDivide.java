@@ -12,10 +12,10 @@ public class TerminalExpressionDivide extends AbstractMathExpression {
     @Override
     public void interpret(Context c) {
         double div = c.popValue();
-        if(div==0){
+        if (div == 0) {
             LOG.warn("Divide in 0! Will be changed to 1");
             div = 1;
         }
-        c.pushValue(c.popValue()/div);
+        c.pushValue(c.popValue() / div);
     }
 }

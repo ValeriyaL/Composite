@@ -10,17 +10,16 @@ public class Symbol implements TextComponent {
         sign = string;
     }
 
-    public Symbol(String string) {sign = string.charAt(0);}
+    public Symbol(String string) {
+        sign = string.charAt(0);
+    }
 
     @Override
-    public void add(TextComponent textComponent) {}
-
-    @Override
-    public void remove(TextComponent textComponent) {}
+    public void add(TextComponent textComponent) {
+    }
 
     @Override
     public String toString() {
         return String.valueOf(sign);
     }
-
 }

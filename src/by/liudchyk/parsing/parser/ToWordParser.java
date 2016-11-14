@@ -3,7 +3,7 @@ package by.liudchyk.parsing.parser;
 import by.liudchyk.parsing.entity.TextComponent;
 import by.liudchyk.parsing.entity.TextComposite;
 import by.liudchyk.parsing.entity.Symbol;
-import by.liudchyk.parsing.entity.ElementType;
+import by.liudchyk.parsing.entity.TextType;
 import by.liudchyk.parsing.interpreter.Calculator;
 import by.liudchyk.parsing.interpreter.ExpressionTransform;
 import org.apache.logging.log4j.LogManager;
@@ -23,31 +23,31 @@ public class ToWordParser extends AbstractParser {
 
     @Override
     public TextComponent parse(String text, TextComposite composite) {
-        TextComposite wordComposite = new TextComposite(ElementType.WORD);
-        LOG.info("Word composite was created");
+        TextComposite lexemeComposite = new TextComposite(TextType.LEXEME);
         Matcher wordMatcher = wordPattern.matcher(text);
         Matcher exprMather = exprPattern.matcher(text);
         String textPart;
-        if(wordMatcher.find()){
-            if(!Character.isAlphabetic(text.charAt(0))){
+        if (wordMatcher.find()) {
+            if (!Character.isAlphabetic(text.charAt(0))) {
                 Symbol symbol = new Symbol(text.charAt(0));
-                wordComposite.add(symbol);
+                lexemeComposite.add(symbol);
             }
             textPart = wordMatcher.group();
-            next.parse(textPart,wordComposite);
-            if(!Character.isAlphabetic(text.charAt(text.length()-1))){
-                Symbol symbol = new Symbol(text.charAt(text.length()-1));
-                wordComposite.add(symbol);
+            next.parse(textPart, lexemeComposite);
+            if (!Character.isAlphabetic(text.charAt(text.length() - 1))) {
+                Symbol symbol = new Symbol(text.charAt(text.length() - 1));
+                lexemeComposite.add(symbol);
             }
-        }else if(exprMather.find()){
+        } else if (exprMather.find()) {
             ExpressionTransform expressionTransform = new ExpressionTransform();
             String expInPoland = expressionTransform.transformExpToPoland(exprMather.group());
             Calculator c = new Calculator(expInPoland);
             int i = c.calculate().intValue();
+            LOG.info("expression " + expInPoland + " = " + i);
             textPart = String.valueOf(i);
-            next.parse(textPart,wordComposite);
+            next.parse(textPart, lexemeComposite);
         }
-        composite.add(wordComposite);
+        composite.add(lexemeComposite);
         return composite;
     }
 }

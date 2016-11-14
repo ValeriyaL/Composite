@@ -6,6 +6,6 @@ package by.liudchyk.parsing.interpreter;
 public class TerminalExpressionIncrement extends AbstractMathExpression {
     @Override
     public void interpret(Context c) {
-        c.pushValue(c.popValue()+1);
+        c.pushValue(c.popValue() + 1);
     }
 }

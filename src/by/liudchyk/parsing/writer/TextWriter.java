@@ -12,13 +12,11 @@ import java.io.IOException;
 public class TextWriter {
     private final static Logger LOG = LogManager.getLogger();
 
-    public static void writeToFile(String file, String text){
-        try(FileWriter writer = new FileWriter(file))
-        {
+    public static void writeToFile(String file, String text) {
+        try (FileWriter writer = new FileWriter(file)) {
             writer.write(text);
             writer.flush();
-        }
-        catch(IOException ex){
+        } catch (IOException ex) {
             LOG.error("Error in writing to the file", ex);
         }
     }

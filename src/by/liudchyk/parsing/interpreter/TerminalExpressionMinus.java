@@ -6,7 +6,7 @@ package by.liudchyk.parsing.interpreter;
 public class TerminalExpressionMinus extends AbstractMathExpression {
     @Override
     public void interpret(Context c) {
-        double first= c.popValue();
-        c.pushValue(c.popValue()-first);
+        double first = c.popValue();
+        c.pushValue(c.popValue() - first);
     }
 }
